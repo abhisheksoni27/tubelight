@@ -15,6 +15,7 @@ authors = [
 keywords = ["logs", "log viewer", "flask", "browser", "debug"]
 dependencies = [
   "Flask>=2.0",
+  "twine>=6.2.0",
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
