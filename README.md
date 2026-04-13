@@ -31,6 +31,19 @@ uv run python -m pip install -e .
 pip install tubelight
 ```
 
+## Makefile
+
+A Makefile is included for common workflows:
+
+```bash
+make build
+make publish
+make bump-patch
+make bump-minor
+make bump-major
+make set-version VERSION=2.0.0
+```
+
 ## Quick start
 
 Run the viewer with the default `example.log` in your current directory:
