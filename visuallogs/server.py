@@ -58,21 +58,18 @@ def tail_lines(path: Path, max_lines: int) -> list[str]:
         return list(deque(f, maxlen=max_lines * 4))
 
 
-def normalize_timestamp(value: datetime | None) -> datetime | None:
-    if value is None:
-        return None
-    if value.tzinfo is not None:
-        return value.astimezone().replace(tzinfo=None)
-    return value
-
-
 def parse_timestamp(value: str | None) -> datetime | None:
     if not value:
         return None
     try:
-        return normalize_timestamp(datetime.fromisoformat(value.replace(" ", "T")))
+        timestamp = datetime.fromisoformat(value.replace(" ", "T"))
     except ValueError:
         return None
+
+    if timestamp.tzinfo is None:
+        return timestamp.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
+    return timestamp
 
 
 def filter_records(

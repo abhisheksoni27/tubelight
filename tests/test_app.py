@@ -61,7 +61,7 @@ class VisualLogsSmokeTest(unittest.TestCase):
         client = app.test_client()
 
         response = client.get(
-            "/api/logs?start=2026-04-13T00:30&end=2026-04-13T03:00&limit=100"
+            "/api/logs?start=2026-04-13T01:00%2B00:00&end=2026-04-13T03:00%2B00:00&limit=100"
         )
         self.assertEqual(response.status_code, 200)
         data = response.get_json() or {}
