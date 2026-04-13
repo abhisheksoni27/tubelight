@@ -6,18 +6,18 @@ SCRIPT_DIR=scripts
 .PHONY: install clean build publish bump bump-patch bump-minor bump-major set-version
 
 install:
-	$(PYTHON) -m pip install -r requirements.txt
+	uv add -r requirements.txt
 
 clean:
 	rm -rf build dist *.egg-info __pycache__
 	find . -name "__pycache__" -type d -exec rm -rf {} +
 
 build: clean
-	uv run $(PYTHON) -m pip install --quiet build
+	uv add build
 	uv run $(PYTHON) -m build
 
 publish: build
-	uv run $(PYTHON) -m pip install --quiet twine
+	uv add twine
 	uv run $(PYTHON) -m twine upload dist/*
 
 bump:

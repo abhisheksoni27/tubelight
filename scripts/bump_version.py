@@ -46,7 +46,7 @@ def update_pyproject(version: str) -> None:
     content = read_pyproject()
     new_content, count = re.subn(
         r'^(version\s*=\s*")[0-9]+\.[0-9]+\.[0-9]+("$)',
-        rf"\1{version}\2",
+        lambda m: f"{m.group(1)}{version}{m.group(2)}",
         content,
         flags=re.MULTILINE,
     )
@@ -67,7 +67,7 @@ def update_package_version(version: str) -> None:
     content = PACKAGE_INIT.read_text(encoding="utf-8")
     new_content, count = re.subn(
         r'(__version__\s*=\s*")[0-9]+\.[0-9]+\.[0-9]+("$)',
-        rf"\1{version}\2",
+        lambda m: f"{m.group(1)}{version}{m.group(2)}",
         content,
         flags=re.MULTILINE,
     )
