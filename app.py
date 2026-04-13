@@ -1,4 +1,4 @@
-from lightbulb.cli import main
+from tubelight.cli import main
 
 
 if __name__ == "__main__":

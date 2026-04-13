@@ -1,8 +1,8 @@
-# lightbulb
+# tubelight
 
 A smart browser-based log viewer for local app logs.
 
-Lightbulb turns any local file into a searchable, live-updating table in your browser. It is ideal for development, debugging, and monitoring your app logs without needing `tail -f`.
+Tubelight turns any local file into a searchable, live-updating table in your browser. It is ideal for development, debugging, and monitoring your app logs without needing `tail -f`.
 
 ## Features
 
@@ -28,7 +28,7 @@ uv run python -m pip install -e .
 ### From PyPI
 
 ```bash
-pip install lightbulb
+pip install tubelight
 ```
 
 ## Quick start
@@ -36,31 +36,31 @@ pip install lightbulb
 Run the viewer with the default `example.log` in your current directory:
 
 ```bash
-lightbulb
+tubelight
 ```
 
 Or point it at a custom log file:
 
 ```bash
-lightbulb --log-file /path/to/your/app.log
+tubelight --log-file /path/to/your/app.log
 ```
 
 You can also use the environment variable:
 
 ```bash
-LOG_FILE=/path/to/your/app.log lightbulb
+LOG_FILE=/path/to/your/app.log tubelight
 ```
 
 Change the port if needed:
 
 ```bash
-lightbulb --port 8080
+tubelight --port 8080
 ```
 
 Filter the current view by date range:
 
 ```bash
-lightbulb --log-file /path/to/your/app.log
+tubelight --log-file /path/to/your/app.log
 ```
 
 Then use the start/end controls in the browser to restrict the log window to a specific time range.
@@ -97,8 +97,8 @@ uv run python -m unittest
 
 ## Project layout
 
-- `lightbulb/` — package source
-- `lightbulb/static/` — browser UI assets
+- `tubelight/` — package source
+- `tubelight/static/` — browser UI assets
 - `app.py` — local launch wrapper
 - `pyproject.toml` — packaging metadata
 - `README.md` — documentation

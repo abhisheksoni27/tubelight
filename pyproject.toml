@@ -3,7 +3,7 @@ requires = ["setuptools>=65.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lightbulb"
+name = "tubelightr"
 version = "1.0.0"
 description = "A smart browser-based log viewer for local app logs."
 readme = "README.md"
@@ -25,15 +25,15 @@ classifiers = [
   "Framework :: Flask",
 ]
 [project.urls]
-Homepage = "https://github.com/abhisheksoni27/lightbulb"
-Repository = "https://github.com/abhisheksoni27/lightbulb"
+Homepage = "https://github.com/abhisheksoni27/tubelight"
+Repository = "https://github.com/abhisheksoni27/tubelight"
 
 [project.scripts]
-lightbulb = "lightbulb.cli:main"
+tubelight = "tubelight.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
 exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-"lightbulb" = ["static/*"]
+"tubelight" = ["static/*"]
