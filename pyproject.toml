@@ -3,9 +3,9 @@ requires = ["setuptools>=65.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "visuallogs"
+name = "lightbulb"
 version = "1.0.0"
-description = "A browser-based local log viewer for JSON and Loguru-style logs."
+description = "A smart browser-based log viewer for local app logs."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -25,15 +25,15 @@ classifiers = [
   "Framework :: Flask",
 ]
 [project.urls]
-Homepage = "https://github.com/abhisheksoni27/visuallogs"
-Repository = "https://github.com/abhisheksoni27/visuallogs"
+Homepage = "https://github.com/abhisheksoni27/lightbulb"
+Repository = "https://github.com/abhisheksoni27/lightbulb"
 
 [project.scripts]
-visuallogs = "visuallogs.cli:main"
+lightbulb = "lightbulb.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
 exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-"visuallogs" = ["static/*"]
+"lightbulb" = ["static/*"]

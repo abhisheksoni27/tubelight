@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from visuallogs.server import create_app
+from lightbulb.server import create_app
 
 
 class VisualLogsSmokeTest(unittest.TestCase):

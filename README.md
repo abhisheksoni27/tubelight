@@ -1,8 +1,8 @@
-# Visual Logs
+# lightbulb
 
-A lightweight browser-based local log viewer for JSON and Loguru-style logs.
+A smart browser-based log viewer for local app logs.
 
-Visual Logs turns any local file into a searchable, live-updating table in your browser. It is ideal for development, debugging, and monitoring your app logs without needing `tail -f`.
+Lightbulb turns any local file into a searchable, live-updating table in your browser. It is ideal for development, debugging, and monitoring your app logs without needing `tail -f`.
 
 ## Features
 
@@ -28,7 +28,7 @@ uv run python -m pip install -e .
 ### From PyPI
 
 ```bash
-pip install visuallogs
+pip install lightbulb
 ```
 
 ## Quick start
@@ -36,31 +36,31 @@ pip install visuallogs
 Run the viewer with the default `example.log` in your current directory:
 
 ```bash
-visuallogs
+lightbulb
 ```
 
 Or point it at a custom log file:
 
 ```bash
-visuallogs --log-file /path/to/your/app.log
+lightbulb --log-file /path/to/your/app.log
 ```
 
 You can also use the environment variable:
 
 ```bash
-LOG_FILE=/path/to/your/app.log visuallogs
+LOG_FILE=/path/to/your/app.log lightbulb
 ```
 
 Change the port if needed:
 
 ```bash
-visuallogs --port 8080
+lightbulb --port 8080
 ```
 
 Filter the current view by date range:
 
 ```bash
-visuallogs --log-file /path/to/your/app.log
+lightbulb --log-file /path/to/your/app.log
 ```
 
 Then use the start/end controls in the browser to restrict the log window to a specific time range.
@@ -97,8 +97,8 @@ uv run python -m unittest
 
 ## Project layout
 
-- `visuallogs/` — package source
-- `visuallogs/static/` — browser UI assets
+- `lightbulb/` — package source
+- `lightbulb/static/` — browser UI assets
 - `app.py` — local launch wrapper
 - `pyproject.toml` — packaging metadata
 - `README.md` — documentation
