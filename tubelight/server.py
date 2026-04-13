@@ -4,6 +4,7 @@ from collections import deque
 from datetime import datetime
 from pathlib import Path
 import json
+import re
 
 from flask import Flask, jsonify, request, send_from_directory
 
@@ -18,6 +19,12 @@ LEVEL_STYLES = {
 }
 
 
+LOGURU_LINE_RE = re.compile(
+    r"^(?P<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d+)\s*\|\s*(?P<level>\w+)"
+    r"\s*\|\s*(?P<module>[^:]+):(?P<function>[^:]+):(?P<line>\d+) - (?P<message>.*)$"
+)
+
+
 def parse_log_line(line: str) -> dict | None:
     if not line or line.isspace():
         return None
@@ -25,29 +32,50 @@ def parse_log_line(line: str) -> dict | None:
     try:
         data = json.loads(line)
     except json.JSONDecodeError:
-        return None
+        data = None
 
-    record = data.get("record", {})
-    level = record.get("level", {})
-    file_info = record.get("file", {})
-    process_info = record.get("process", {})
-    thread_info = record.get("thread", {})
+    if data:
+        record = data.get("record", {})
+        level = record.get("level", {})
+        file_info = record.get("file", {})
+        process_info = record.get("process", {})
+        thread_info = record.get("thread", {})
 
-    return {
-        "time": record.get("time", {}).get("repr")
-        or data.get("text", "").split(" | ", 1)[0],
-        "level": level.get("name", "UNKNOWN"),
-        "icon": level.get("icon", ""),
-        "message": record.get("message", ""),
-        "module": record.get("module", ""),
-        "file": file_info.get("name", ""),
-        "path": file_info.get("path", ""),
-        "line": record.get("line", ""),
-        "process": process_info.get("id"),
-        "thread": thread_info.get("name", ""),
-        "raw": data.get("text", line).rstrip("\n"),
-        "levelClass": LEVEL_STYLES.get(level.get("name", ""), "unknown"),
-    }
+        return {
+            "time": record.get("time", {}).get("repr")
+            or data.get("text", "").split(" | ", 1)[0],
+            "level": level.get("name", "UNKNOWN"),
+            "icon": level.get("icon", ""),
+            "message": record.get("message", ""),
+            "module": record.get("module", ""),
+            "file": file_info.get("name", ""),
+            "path": file_info.get("path", ""),
+            "line": record.get("line", ""),
+            "process": process_info.get("id"),
+            "thread": thread_info.get("name", ""),
+            "raw": data.get("text", line).rstrip("\n"),
+            "levelClass": LEVEL_STYLES.get(level.get("name", ""), "unknown"),
+        }
+
+    match = LOGURU_LINE_RE.match(line.strip())
+    if match:
+        groups = match.groupdict()
+        return {
+            "time": groups["time"],
+            "level": groups["level"],
+            "icon": "",
+            "message": groups["message"],
+            "module": groups["module"],
+            "file": "",
+            "path": "",
+            "line": groups["line"],
+            "process": None,
+            "thread": "",
+            "raw": line.rstrip("\n"),
+            "levelClass": LEVEL_STYLES.get(groups["level"], "unknown"),
+        }
+
+    return None
 
 
 def tail_lines(path: Path, max_lines: int) -> list[str]:

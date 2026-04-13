@@ -1,16 +1,75 @@
-const queryInput = document.getElementById("queryInput");
-const startDateInput = document.getElementById("startDateInput");
-const endDateInput = document.getElementById("endDateInput");
-const levelSelect = document.getElementById("levelSelect");
-const limitSelect = document.getElementById("limitSelect");
-const refreshButton = document.getElementById("refreshButton");
-const updatedAt = document.getElementById("updatedAt");
-const recordCount = document.getElementById("recordCount");
-const logTableBody = document.getElementById("logTableBody");
-const liveToggle = document.getElementById("liveToggle");
-const autoScrollToggle = document.getElementById("autoScrollToggle");
-
+let queryInput = null;
+let startDateInput = null;
+let endDateInput = null;
+let levelSelect = null;
+let limitSelect = null;
+let refreshButton = null;
+let updatedAt = null;
+let recordCount = null;
+let logTableBody = null;
+let liveToggle = null;
+let autoScrollToggle = null;
 let refreshTimer = null;
+
+function initDom() {
+  queryInput = document.getElementById("queryInput");
+  startDateInput = document.getElementById("startDateInput");
+  endDateInput = document.getElementById("endDateInput");
+  levelSelect = document.getElementById("levelSelect");
+  limitSelect = document.getElementById("limitSelect");
+  refreshButton = document.getElementById("refreshButton");
+  updatedAt = document.getElementById("updatedAt");
+  recordCount = document.getElementById("recordCount");
+  logTableBody = document.getElementById("logTableBody");
+  liveToggle = document.getElementById("liveToggle");
+  autoScrollToggle = document.getElementById("autoScrollToggle");
+
+  const missing = [];
+  if (!queryInput) missing.push("queryInput");
+  if (!levelSelect) missing.push("levelSelect");
+  if (!limitSelect) missing.push("limitSelect");
+  if (!refreshButton) missing.push("refreshButton");
+  if (!logTableBody) missing.push("logTableBody");
+
+  if (missing.length > 0) {
+    console.error(
+      "Missing required DOM elements for the log viewer:",
+      missing.join(", "),
+    );
+    return false;
+  }
+
+  if (queryInput) {
+    queryInput.addEventListener("input", () => fetchLogs());
+  }
+  if (startDateInput) {
+    startDateInput.addEventListener("change", () => fetchLogs());
+  }
+  if (endDateInput) {
+    endDateInput.addEventListener("change", () => fetchLogs());
+  }
+  if (levelSelect) {
+    levelSelect.addEventListener("change", () => fetchLogs());
+  }
+  if (limitSelect) {
+    limitSelect.addEventListener("change", () => fetchLogs());
+  }
+  if (refreshButton) {
+    refreshButton.addEventListener("click", () => fetchLogs());
+  }
+  if (liveToggle) {
+    liveToggle.addEventListener("change", updatePolling);
+  }
+  if (autoScrollToggle) {
+    autoScrollToggle.addEventListener("change", () => {
+      if (autoScrollToggle.checked) {
+        scrollToBottom();
+      }
+    });
+  }
+
+  return true;
+}
 
 function formatSource(file, line) {
   if (!file) {
@@ -86,6 +145,11 @@ function getDateValue(input) {
 }
 
 async function fetchLogs() {
+  if (!queryInput || !levelSelect || !limitSelect || !logTableBody) {
+    console.warn("Cannot fetch logs before DOM is ready.");
+    return;
+  }
+
   const params = new URLSearchParams({
     q: queryInput.value,
     level: levelSelect.value,
@@ -148,17 +212,41 @@ function updatePolling() {
   }
 }
 
-queryInput.addEventListener("input", () => fetchLogs());
-startDateInput.addEventListener("change", () => fetchLogs());
-endDateInput.addEventListener("change", () => fetchLogs());
-levelSelect.addEventListener("change", () => fetchLogs());
-limitSelect.addEventListener("change", () => fetchLogs());
-refreshButton.addEventListener("click", () => fetchLogs());
-liveToggle.addEventListener("change", updatePolling);
-autoScrollToggle.addEventListener("change", () => {
-  if (autoScrollToggle.checked) {
-    scrollToBottom();
-  }
-});
+if (queryInput) {
+  queryInput.addEventListener("input", () => fetchLogs());
+}
+if (startDateInput) {
+  startDateInput.addEventListener("change", () => fetchLogs());
+}
+if (endDateInput) {
+  endDateInput.addEventListener("change", () => fetchLogs());
+}
+if (levelSelect) {
+  levelSelect.addEventListener("change", () => fetchLogs());
+}
+if (limitSelect) {
+  limitSelect.addEventListener("change", () => fetchLogs());
+}
+if (refreshButton) {
+  refreshButton.addEventListener("click", () => fetchLogs());
+}
+if (liveToggle) {
+  liveToggle.addEventListener("change", updatePolling);
+}
+if (autoScrollToggle) {
+  autoScrollToggle.addEventListener("change", () => {
+    if (autoScrollToggle.checked) {
+      scrollToBottom();
+    }
+  });
+}
 
-fetchConfig().then(fetchLogs).then(updatePolling);
+function initializeViewer() {
+  if (!initDom()) {
+    return;
+  }
+
+  fetchConfig().then(fetchLogs).then(updatePolling);
+}
+
+window.addEventListener("load", initializeViewer);

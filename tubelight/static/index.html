@@ -42,6 +42,18 @@
                 <input id="endDateInput" type="datetime-local" />
             </div>
             <div class="control-group small">
+                <label for="levelSelect">Level</label>
+                <select id="levelSelect">
+                    <option value="">All</option>
+                    <option value="DEBUG">DEBUG</option>
+                    <option value="INFO">INFO</option>
+                    <option value="SUCCESS">SUCCESS</option>
+                    <option value="WARNING">WARNING</option>
+                    <option value="ERROR">ERROR</option>
+                    <option value="CRITICAL">CRITICAL</option>
+                </select>
+            </div>
+            <div class="control-group small">
                 <label for="limitSelect">Limit</label>
                 <select id="limitSelect">
                     <option value="50">50</option>
@@ -72,7 +84,7 @@
             <p>Viewing <code>example.log</code> from the repo root.</p>
         </div>
     </div>
-    <script src="/static/app.js"></script>
+    <script defer src="/static/app.js"></script>
 </body>
 
 </html>
