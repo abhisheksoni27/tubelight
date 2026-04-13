@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Logs</title>
+    <link rel="stylesheet" href="/static/app.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Local Log Viewer</p>
+                <h1>Visual Logs</h1>
+                <p class="description">Open <code>example.log</code> in your browser on <strong>localhost</strong>.
+                    Search, filter, and inspect log events instantly.</p>
+            </div>
+            <div class="status-panel">
+                <div class="status-row"><span>Live</span><label class="toggle"><input id="liveToggle" type="checkbox"
+                            checked /><span class="slider"></span></label></div>
+                <div class="status-row"><span>Last update</span><strong id="updatedAt">–</strong></div>
+                <div class="status-row"><span>Result count</span><strong id="recordCount">0</strong></div>
+            </div>
+        </header>
+
+        <section class="controls">
+            <div class="control-group">
+                <label for="queryInput">Search</label>
+                <input id="queryInput" type="search" placeholder="Search by message, module, file, level..." />
+            </div>
+            <div class="control-group">
+                <label for="levelSelect">Level</label>
+                <select id="levelSelect">
+                    <option value="">All levels</option>
+                    <option value="DEBUG">DEBUG</option>
+                    <option value="INFO">INFO</option>
+                    <option value="SUCCESS">SUCCESS</option>
+                    <option value="WARNING">WARNING</option>
+                    <option value="ERROR">ERROR</option>
+                    <option value="CRITICAL">CRITICAL</option>
+                </select>
+            </div>
+            <div class="control-group small">
+                <label for="limitSelect">Limit</label>
+                <select id="limitSelect">
+                    <option value="50">50</option>
+                    <option value="100" selected>100</option>
+                    <option value="250">250</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+            <button id="refreshButton" class="primary">Refresh</button>
+        </section>
+
+        <section class="table-shell">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Level</th>
+                        <th>Message</th>
+                        <th>Source</th>
+                        <th>Context</th>
+                    </tr>
+                </thead>
+                <tbody id="logTableBody"></tbody>
+            </table>
+        </section>
+
+        <div class="footer">
+            <p>Viewing <code>example.log</code> from the repo root.</p>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
