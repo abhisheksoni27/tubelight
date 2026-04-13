@@ -9,7 +9,9 @@ Visual Logs turns any local file into a searchable, live-updating table in your 
 - Render local log files in a polished browser UI
 - Search by message, module, file path, or log contents
 - Filter by level: `DEBUG`, `INFO`, `SUCCESS`, `WARNING`, `ERROR`, `CRITICAL`
-- Live refresh support with manual refresh fallback
+- Date-range filtering with start/end datetime controls
+- Auto-scroll to newest logs when live mode is enabled
+- Click any row to expand raw log details
 - Simple CLI and environment variable configuration
 - Ready for pip packaging and distribution
 
@@ -55,7 +57,15 @@ Change the port if needed:
 visuallogs --port 8080
 ```
 
-Then open:
+Filter the current view by date range:
+
+```bash
+visuallogs --log-file /path/to/your/app.log
+```
+
+Then use the start/end controls in the browser to restrict the log window to a specific time range.
+
+Open the viewer:
 
 ```text
 http://127.0.0.1:5111
