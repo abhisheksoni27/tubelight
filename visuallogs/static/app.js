@@ -30,6 +30,19 @@ function buildRow(record) {
   return row;
 }
 
+async function fetchConfig() {
+  try {
+    const response = await fetch(`/api/config`);
+    const payload = await response.json();
+    if (response.ok) {
+      document.getElementById("logPath").textContent =
+        payload.logFile || "example.log";
+    }
+  } catch (error) {
+    console.warn("Failed to fetch config", error);
+  }
+}
+
 async function fetchLogs() {
   const params = new URLSearchParams({
     q: queryInput.value,
@@ -75,4 +88,4 @@ limitSelect.addEventListener("change", () => fetchLogs());
 refreshButton.addEventListener("click", () => fetchLogs());
 liveToggle.addEventListener("change", updatePolling);
 
-fetchLogs().then(updatePolling);
+fetchConfig().then(fetchLogs).then(updatePolling);

@@ -1,37 +1,108 @@
-# Visual Logs Viewer
+# Visual Logs
 
-A simple local log viewer for `example.log`.
+A lightweight browser-based local log viewer for JSON and Loguru-style logs.
 
-## Run locally
-
-1. Install dependencies:
-
-   ```bash
-   python3 -m pip install -r requirements.txt
-   ```
-
-2. Start the app:
-
-   ```bash
-   python app.py
-   ```
-
-3. Open the browser:
-
-   ```
-   http://127.0.0.1:5000
-   ```
+Visual Logs turns any local file into a searchable, live-updating table in your browser. It is ideal for development, debugging, and monitoring your app logs without needing `tail -f`.
 
 ## Features
 
-- Reads the last log lines from `example.log`
-- Search by message, module, file, or level
-- Filter by log level
-- Live refresh toggle
-- Clean table-based layout in the browser
+- Render local log files in a polished browser UI
+- Search by message, module, file path, or log contents
+- Filter by level: `DEBUG`, `INFO`, `SUCCESS`, `WARNING`, `ERROR`, `CRITICAL`
+- Live refresh support with manual refresh fallback
+- Simple CLI and environment variable configuration
+- Ready for pip packaging and distribution
 
-## Next steps
+## Installation
 
-- Add auto-scroll to newest entries
-- Add row expansion for raw JSON payload
-- Add timezone / date range filters
+Install the package from source or once published on PyPI.
+
+### From source
+
+```bash
+uv run python -m pip install -e .
+```
+
+### From PyPI
+
+```bash
+pip install visuallogs
+```
+
+## Quick start
+
+Run the viewer with the default `example.log` in your current directory:
+
+```bash
+visuallogs
+```
+
+Or point it at a custom log file:
+
+```bash
+visuallogs --log-file /path/to/your/app.log
+```
+
+You can also use the environment variable:
+
+```bash
+LOG_FILE=/path/to/your/app.log visuallogs
+```
+
+Change the port if needed:
+
+```bash
+visuallogs --port 8080
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5111
+```
+
+## Packaging for pip
+
+Build source and wheel distributions:
+
+```bash
+uv run python -m pip install build
+uv run python -m build
+```
+
+Publish to PyPI using Twine:
+
+```bash
+uv run python -m pip install twine
+uv run python -m twine upload dist/*
+```
+
+## Testing
+
+Run the included smoke tests:
+
+```bash
+uv run python -m unittest
+```
+
+## Project layout
+
+- `visuallogs/` — package source
+- `visuallogs/static/` — browser UI assets
+- `app.py` — local launch wrapper
+- `pyproject.toml` — packaging metadata
+- `README.md` — documentation
+- `LICENSE` — MIT license
+
+## Contributing
+
+Contributions are welcome. Open an issue or send a pull request with:
+
+- bug reports
+- UX improvements
+- log format support
+- authentication / multi-user features
+
+## License
+
+MIT

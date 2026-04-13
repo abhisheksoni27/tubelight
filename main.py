@@ -1,5 +1,4 @@
-def main():
-    print("Hello from visuallogs!")
+from visuallogs.cli import main
 
 
 if __name__ == "__main__":

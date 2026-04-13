@@ -1,9 +1,38 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "visuallogs"
 version = "0.1.0"
-description = "Add your description here"
+description = "A browser-based local log viewer for JSON and Loguru-style logs."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "flask>=2.0",
+license = { text = "MIT" }
+authors = [
+  { name = "abhisheksoni27" }
 ]
+keywords = ["logs", "log viewer", "flask", "browser", "debug"]
+dependencies = [
+  "Flask>=2.0",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Framework :: Flask",
+]
+[project.urls]
+Homepage = "https://github.com/abhisheksoni27/visuallogs"
+Repository = "https://github.com/abhisheksoni27/visuallogs"
+
+[project.scripts]
+visuallogs = "visuallogs.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"visuallogs" = ["static/*"]
