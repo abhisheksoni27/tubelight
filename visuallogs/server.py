@@ -58,12 +58,35 @@ def tail_lines(path: Path, max_lines: int) -> list[str]:
         return list(deque(f, maxlen=max_lines * 4))
 
 
-def filter_records(records: list[dict], query: str, level: str) -> list[dict]:
+def normalize_timestamp(value: datetime | None) -> datetime | None:
+    if value is None:
+        return None
+    if value.tzinfo is not None:
+        return value.astimezone().replace(tzinfo=None)
+    return value
+
+
+def parse_timestamp(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return normalize_timestamp(datetime.fromisoformat(value.replace(" ", "T")))
+    except ValueError:
+        return None
+
+
+def filter_records(
+    records: list[dict],
+    query: str,
+    level: str,
+    start: datetime | None,
+    end: datetime | None,
+) -> list[dict]:
     query = (query or "").strip().lower()
     level = (level or "").strip().upper()
 
-    if not query and not level:
-        return records
+    if start and end and start > end:
+        start, end = end, start
 
     matched: list[dict] = []
     for record in records:
@@ -78,6 +101,15 @@ def filter_records(records: list[dict], query: str, level: str) -> list[dict]:
                 ]
             ).lower()
             if query not in searchable:
+                continue
+
+        if start or end:
+            timestamp = parse_timestamp(record["time"])
+            if timestamp is None:
+                continue
+            if start and timestamp < start:
+                continue
+            if end and timestamp > end:
                 continue
 
         matched.append(record)
@@ -117,6 +149,8 @@ def create_app(log_file: str | Path | None = None) -> Flask:
         limit = request.args.get("limit", "250")
         query = request.args.get("q", "")
         level = request.args.get("level", "")
+        start_date = request.args.get("start", "")
+        end_date = request.args.get("end", "")
 
         try:
             limit = min(max(int(limit), 1), 2000)
@@ -127,8 +161,10 @@ def create_app(log_file: str | Path | None = None) -> Flask:
         parsed = [parse_log_line(line) for line in raw_lines]
         parsed = [entry for entry in parsed if entry]
 
-        filtered = filter_records(parsed, query, level)
-        filtered = list(reversed(filtered))
+        start_dt = parse_timestamp(start_date)
+        end_dt = parse_timestamp(end_date)
+
+        filtered = filter_records(parsed, query, level, start_dt, end_dt)
         filtered = filtered[:limit]
 
         return jsonify(
@@ -138,6 +174,8 @@ def create_app(log_file: str | Path | None = None) -> Flask:
                 "query": query,
                 "level": level.upper(),
                 "limit": limit,
+                "start": start_date,
+                "end": end_date,
             }
         )
 

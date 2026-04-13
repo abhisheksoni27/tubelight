@@ -20,6 +20,8 @@
             <div class="status-panel">
                 <div class="status-row"><span>Live</span><label class="toggle"><input id="liveToggle" type="checkbox"
                             checked /><span class="slider"></span></label></div>
+                <div class="status-row"><span>Auto-scroll</span><label class="toggle"><input id="autoScrollToggle" type="checkbox"
+                            checked /><span class="slider"></span></label></div>
                 <div class="status-row"><span>Last update</span><strong id="updatedAt">–</strong></div>
                 <div class="status-row"><span>Result count</span><strong id="recordCount">0</strong></div>
                 <div class="status-row"><span>Log file</span><strong id="logPath">example.log</strong></div>
@@ -32,16 +34,12 @@
                 <input id="queryInput" type="search" placeholder="Search by message, module, file, level..." />
             </div>
             <div class="control-group">
-                <label for="levelSelect">Level</label>
-                <select id="levelSelect">
-                    <option value="">All levels</option>
-                    <option value="DEBUG">DEBUG</option>
-                    <option value="INFO">INFO</option>
-                    <option value="SUCCESS">SUCCESS</option>
-                    <option value="WARNING">WARNING</option>
-                    <option value="ERROR">ERROR</option>
-                    <option value="CRITICAL">CRITICAL</option>
-                </select>
+                <label for="startDateInput">Start date</label>
+                <input id="startDateInput" type="datetime-local" />
+            </div>
+            <div class="control-group">
+                <label for="endDateInput">End date</label>
+                <input id="endDateInput" type="datetime-local" />
             </div>
             <div class="control-group small">
                 <label for="limitSelect">Limit</label>
