@@ -28,6 +28,9 @@ bump-patch:
 
 bump-minor:
 	$(PYTHON) $(SCRIPT_DIR)/bump_version.py minor
+	git add .
+	git commit -m "Bump minor version"
+	git push
 
 bump-major:
 	$(PYTHON) $(SCRIPT_DIR)/bump_version.py major
