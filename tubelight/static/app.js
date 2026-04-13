@@ -132,8 +132,15 @@ async function fetchConfig() {
     const response = await fetch(`/api/config`);
     const payload = await response.json();
     if (response.ok) {
-      document.getElementById("logPath").textContent =
-        payload.logFile || "example.log";
+      const footerLogPath = document.getElementById("footerLogPath");
+      const logPathElement = document.getElementById("logPath");
+
+      if (logPathElement) {
+        logPathElement.textContent = payload.logFile || "example.log";
+      }
+      if (footerLogPath) {
+        footerLogPath.textContent = payload.logFile || "example.log";
+      }
     }
   } catch (error) {
     console.warn("Failed to fetch config", error);

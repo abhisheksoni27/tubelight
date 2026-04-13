@@ -15,10 +15,20 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--port", type=int, default=5111, help="Port to bind the web server"
     )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Run the server in debug mode with auto-reload",
+    )
     args = parser.parse_args(argv)
 
     env_log_file = os.environ.get("LOG_FILE")
     app = create_app(args.log_file or env_log_file)
 
     print(f"Watching log file: {app.config['LOG_FILE']}")
-    app.run(host=args.host, port=args.port, debug=True)
+    app.run(
+        host=args.host,
+        port=args.port,
+        debug=args.debug,
+        use_reloader=args.debug,
+    )
